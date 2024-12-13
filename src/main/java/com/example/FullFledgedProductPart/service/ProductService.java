@@ -1,7 +1,6 @@
 package com.example.FullFledgedProductPart.service;
 
 import com.example.FullFledgedProductPart.entities.Product;
-import com.example.FullFledgedProductPart.entities.User;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;

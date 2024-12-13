@@ -3,6 +3,9 @@ package com.example.FullFledgedProductPart.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "Product")
 public class Product {
@@ -19,23 +22,20 @@ public class Product {
 
     private Long userId;
 
-    public Product() {
+    @Transient
+    private List<ProductInventory> inventories = new ArrayList<>();
+
+    Product(){
+
     }
 
-    public Product(Long userId,Long id, String name, String price, String description) {
+    public Product(Long id, String name, String price, String description, Long userId, List<ProductInventory> inventories) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.description = description;
         this.userId = userId;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
+        this.inventories = inventories;
     }
 
     public Long getId() {
@@ -68,6 +68,22 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public List<ProductInventory> getInventories() {
+        return inventories;
+    }
+
+    public void setInventories(List<ProductInventory> inventories) {
+        this.inventories = inventories;
     }
 
     @Override

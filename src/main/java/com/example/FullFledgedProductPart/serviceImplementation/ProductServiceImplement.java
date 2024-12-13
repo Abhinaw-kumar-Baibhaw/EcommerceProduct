@@ -1,6 +1,7 @@
 package com.example.FullFledgedProductPart.serviceImplementation;
 
 import com.example.FullFledgedProductPart.entities.Product;
+import com.example.FullFledgedProductPart.entities.ProductInventory;
 import com.example.FullFledgedProductPart.entities.User;
 import com.example.FullFledgedProductPart.repo.ProductRepo;
 import com.example.FullFledgedProductPart.service.ProductService;
@@ -8,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +20,9 @@ public class ProductServiceImplement implements ProductService {
 
     @Autowired
     private ProductRepo productRepo;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Override
     public Product create(Product product) {
@@ -31,9 +37,17 @@ public class ProductServiceImplement implements ProductService {
     @Override
     public ResponseEntity<Product> getById(Long productId) {
         Optional<Product> product = productRepo.findById(productId);
-        if (product.isPresent()){
+        if (product.isPresent()) {
             Product product1 = product.get();
-            return ResponseEntity.ok(product1);
+            try {
+                String url = "http://FullFledgedInventoryPart/inventory/getById/" + product1.getId();
+                ProductInventory productInventories = restTemplate.getForObject(url, ProductInventory.class);
+                List<ProductInventory> customerOrders = Arrays.asList(productInventories);
+                product1.setInventories(customerOrders);
+                return ResponseEntity.ok(product1);
+            }catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
