@@ -2,7 +2,6 @@ package com.example.FullFledgedProductPart.serviceImplementation;
 
 import com.example.FullFledgedProductPart.entities.Product;
 import com.example.FullFledgedProductPart.entities.ProductInventory;
-import com.example.FullFledgedProductPart.entities.User;
 import com.example.FullFledgedProductPart.repo.ProductRepo;
 import com.example.FullFledgedProductPart.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,8 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
+
 
 @Service
 public class ProductServiceImplement implements ProductService {
